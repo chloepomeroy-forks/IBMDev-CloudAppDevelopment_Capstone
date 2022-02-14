@@ -28,7 +28,7 @@ def about(request):
 
 # Create a `contact` view to return a static contact page
 #def contact(request):
-def about(request):
+def contact(request):
     context = {}
     if request.method == 'GET':
         return render(request, 'djangoapp/contact.html', context)
