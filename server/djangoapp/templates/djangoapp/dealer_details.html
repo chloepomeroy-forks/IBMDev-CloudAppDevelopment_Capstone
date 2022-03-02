@@ -9,7 +9,74 @@
 
     <body>
 
-    <!--Add a nav bar here -->
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Dealership Review</a>
+                </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a class="btn btn-link" href="#">Hi {{ user.first_name }}!</a>
+                            <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                            <a class="btn btn-link" href="{% url 'djangoapp:about' %}">About</a>
+                            <a class="btn btn-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <a class="btn btn-link" href="{% url 'djangoapp:about' %}">About</a>
+                                    <a class="btn btn-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                                    <input type="text" class="form-control" placeholder="Username" name="username" >
+                                    <input type="password" class="form-control" placeholder="Password" name="psw" >
+                                    <button class="btn btn-primary" type="submit">Login</button>
+                                    <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                                </div>
+                            </form>
+                        </li>
+                        {% endif %}
+                    </ul>
+            </div>
+        </nav>
+
+        {% if dealer_details %}
+        <div class="card-columns">
+            {% for review in dealer_details %}
+                <div class="card">
+                    <div class="card-header">
+                        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png">
+                    </div>
+                    <div class="card-body text-center">
+                        <h3 class="card-title">{{review.name}}</h3>
+                        <p class="card-text">{{review.review}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="card ">
+                <div class="card-header">
+                       <h5 class="card-title text-center pt-1">Write a Review!</h5>
+               </div>
+               {% if user.is_authenticated %}
+                    <a class="btn btn-link" type="submit" href="{% url 'djangoapp:add_review' dealer_id %}">Write a Review!</a>
+                {% else %}
+                    <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Login to write a review</a>
+                {% endif %}
+
+        {% else %}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title text-center">Currently No Reviews!</h3>
+            </div>
+            {% if user.is_authenticated %}
+            <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer_id %}">Add a Review</a>
+            {% else %}
+            <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Login to write a review</a>
+            {% endif %}
+            </div>
+        {% endif %}
 
     <!-- Add reviews as cards -->
 

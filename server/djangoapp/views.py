@@ -101,8 +101,8 @@ def get_dealer_details(request, dealer_id):
     url = "https://7dc9cbcd.us-south.apigw.appdomain.cloud/capstone/get_reviews"
     context = {}
     dealer_details = get_dealer_reviews_from_cf(url,dealer_id)
-    reviews = ' '.join([review.review for review in dealer_details])
-    return HttpResponse(reviews)
+    context["dealer_details"] = dealer_details
+    render(request, 'djangoapp/dealer_details.html', context)
 
 
 # Create a `add_review` view to submit a review
