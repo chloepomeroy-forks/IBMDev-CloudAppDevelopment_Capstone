@@ -115,11 +115,11 @@ def add_review(request, dealer_id):
             review["name"]=request.POST["name"]
             review["dealership"]=dealer_id
             review["review"]=request.POST["content"]
-            #if ("purchasecheck" in request.POST):
-            #    review["purchase"]=True
-            #else:
-            #    review["purchase"]=False
-            #if review["purchase"] == True:
+            if ("purchasecheck" in request.POST):
+                review["purchase"]=True
+            else:
+                review["purchase"]=False
+            if review["purchase"] == True:
                 review["purchase_date"]=request.POST["purchase_date"] 
                 review["car_make"]=request.POST["car_make"]
                 review["car_model"]=request.POST["car_model"]

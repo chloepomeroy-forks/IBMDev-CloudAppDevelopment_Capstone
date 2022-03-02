@@ -31,7 +31,8 @@ def post_request(url, json_payload, **kwargs):
     print(json_payload)
     print(kwargs)
     try:
-        return response = requests.post(url, params=kwargs, json=json_payload)
+        response = requests.post(url, params=kwargs, json=json_payload)
+        return response
     except Exception as e:
         print("Error" ,e)
     print("Status Code ", {response.status_code})
