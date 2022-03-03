@@ -60,7 +60,7 @@
                        <h5 class="card-title text-center pt-1">Write a Review!</h5>
                </div>
                {% if user.is_authenticated %}
-                    <a class="btn btn-dark" type="submit" href="{% url 'djangoapp:add_review' dealer_id %}">Write a Review!</a>
+                    <a class="btn btn-dark" href="{% url 'djangoapp:add_review' dealer_id %}">Write a Review!</a>
                 {% else %}
                     <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Login to write a review</a>
                 {% endif %}
