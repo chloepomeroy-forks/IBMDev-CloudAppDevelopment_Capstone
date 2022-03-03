@@ -89,9 +89,6 @@ def get_dealerships(request):
         url = "https://7dc9cbcd.us-south.apigw.appdomain.cloud/capstone/get_dealerships"
         # Get dealers from the URL
         dealerships = get_dealers_from_cf(url)
-        # Concat all dealer's short name
-        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
-        # Return a list of dealer short name
         context["dealerships"] = dealerships
         return render(request, 'djangoapp/index.html', context)
 
@@ -112,7 +109,7 @@ def add_review(request, dealer_id):
         url = "https://7dc9cbcd.us-south.apigw.appdomain.cloud/capstone/get_dealerships"
         context = {}
         context["dealer_id"] = dealer_id
-        context["dealer_name"] = get_dealers_from_cf(url).full_name
+        context["dealer_name"] = get_dealers_from_cf(url)[dealer_id].full_name
         context["cars"]=CarModel.objects.all()
         return render(request, 'djangoapp/add_review.html', context)
     elif request.method == 'POST':
