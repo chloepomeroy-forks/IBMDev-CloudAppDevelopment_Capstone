@@ -12,17 +12,23 @@
 </head>
     <body>
         <form action="{% url 'djangoapp:add_review' dealer_id %}"  method="post">
+            {% csrf_token %}
+            <h2 class="text-left">Review for <b>{{dealer_name}}</b></h2>
             <label for="content"><b>Type your review:</b></label>
-            <textarea class="form-control" id="content" name="content" rows="2" required placeholder="Wow, this car dealer is amazing!"></textarea>
-            <label for="purchasecheck">Has purchased the car from {{dealer.full_name}}</label>
-            <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+            <textarea class="form-control" id="content" name="content" rows="2" placeholder="I love this dealership so much" required></textarea><br>
+            <label for="purchasecheck">Made a purchase at {{dealer_name}}</label>
+            <label class="text-white" for="purchasecheck">___</label>
+            <input class="form-check-input" float=left type="checkbox" name="purchasecheck" id="purchasecheck"><br>
+            <label for="car"><b>Which car did you buy?</b> (If purchased)</label><br>
             <select name="car" id="car" class="form-select" required>
                 {% for car in cars %}
-                    <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                    <option selected value="{{car.car_make}},{{car.id}},{{ car.year}}">{{car.car_make}}-{{car.name}}-{{ car.year|date:"Y" }}</option>
                 {% endfor %}
-           </select>
-           <label for="purchasedate"><b>Select Your Purchase Date:</b></label>
-           <input class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
+           </select><br><br>
+           <label for="purchase_date"><b>Select Your Purchase Date:</b></label>
+           <input class="date-own form-control w-25" type="text" name="purchase_date" id="purchase_date"><br>
+           <label for="name"><b>Name:</b></label>
+           <input class="form-control" type="text" placeholder="Jane Doe" name="name" required><br>
            <button class="btn btn-dark" type="submit">Submit Review</button>
     </body>
     <script type="text/javascript">

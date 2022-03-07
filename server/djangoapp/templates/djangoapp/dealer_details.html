@@ -12,7 +12,7 @@
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Dealership Review</a>
+                    <a class="navbar-brand" href="#"><b>Reviews for {{dealer_name}}</b></a>
                 </div>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
@@ -44,25 +44,26 @@
         {% if dealer_details %}
         <div class="card-columns">
             {% for review in dealer_details %}
-                <div class="card">
-                    <div class="card-header">
-                        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png">
+                <div class="card w-100">
+                    <div class="card-header bg-light">
+                        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" width="55" height="55">
                     </div>
-                    <div class="card-body text-center">
-                        <h3 class="card-title">{{review.name}}</h3>
+                    <div class="card-body text-center bg-secondary">
+                        <h4 class="card-title">{{review.name}}</h4>
                         <p class="card-text">{{review.review}}</p>
+                        <p class="card-text">{{review.sentiment}}</p>
                     </div>
                 </div>
             </div>
             {% endfor %}
-            <div class="card ">
+            <div class="card">
                 <div class="card-header">
-                       <h5 class="card-title text-center pt-1">Write a Review!</h5>
+                       <h5 class="card-title text-center" width="200">Have something to say?</h5>
                </div>
                {% if user.is_authenticated %}
-                    <a class="btn btn-dark" href="{% url 'djangoapp:add_review' dealer_id %}">Write a Review!</a>
+                    <a class="btn btn-dark" href="{% url 'djangoapp:add_review' dealer_id %}" width="200">Write a Review!</a>
                 {% else %}
-                    <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Login to write a review</a>
+                    <a class="btn btn-link" href="{% url 'djangoapp:login' %}" width="200">Login to write a review</a>
                 {% endif %}
 
         {% else %}
@@ -71,7 +72,7 @@
                 <h3 class="card-title text-center">Currently No Reviews!</h3>
             </div>
             {% if user.is_authenticated %}
-            <a class="btn btn-dark" href="{% url 'djangoapp:add_review' dealer_id %}">Add a Review</a>
+            <a class="btn btn-dark" href="{% url 'djangoapp:add_review' dealer_id %}">Write a Review!</a>
             {% else %}
             <a class="btn btn-link" href="{% url 'djangoapp:login' %}">Login to write a review</a>
             {% endif %}
