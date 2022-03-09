@@ -113,7 +113,7 @@ def add_review(request, dealer_id):
         url = "https://7dc9cbcd.us-south.apigw.appdomain.cloud/capstone/get_dealerships"
         context = {}
         context["dealer_id"] = dealer_id
-        context["dealer_name"] = get_dealers_from_cf(url)[dealer_id].full_name
+        context["dealer_name"] = get_dealers_from_cf(url)[dealer_id-1].full_name
         context["cars"]=CarModel.objects.all()
         return render(request, 'djangoapp/add_review.html', context)
     elif request.method == 'POST':

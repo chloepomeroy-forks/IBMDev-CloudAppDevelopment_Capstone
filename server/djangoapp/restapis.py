@@ -2,9 +2,9 @@ import requests
 import json
 from .models import CarDealer, DealerReview, CarModel
 from requests.auth import HTTPBasicAuth
-#from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-#from ibm_watson import NaturalLanguageUnderstandingV1
-#from ibm_watson.natural_language_understanding_v1 import Features,SentimentOptions
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_watson.natural_language_understanding_v1 import Features,SentimentOptions
 
 def get_request(url, **kwargs):
     print("GET from {} ".format(url))
@@ -94,23 +94,16 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 def analyze_review_sentiments(dealerreview):
     api_key="cWm4pa3jNxTG-_f-Fk4MS0-HrGVAt-qbFPpYCRO0aF1t"
     url="https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/b74c374d-6cdf-46c2-b1fa-ebe1d44c5e71"
-    data = json.dumps({"text": dealerreview, "features": {"sentiment": {}}})
-    response = requests.post(url,data=data,headers={'Content-Type':'application/json'},auth=HTTPBasicAuth("apikey", api_key))
-    print(response.json())
+    authenticator = IAMAuthenticator(api_key)
+    natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
+    natural_language_understanding.set_service_url(url)
     try:
-        sentiment=response.json()['sentiment']['document']['label']
-        return sentiment
+        response = natural_language_understanding.analyze( text=dealerreview,features=Features(sentiment=SentimentOptions(targets=[dealerreview]))).get_result()
+        print(response)
+        label=json.dumps(response, indent=2)["sentiment"]["targets"]["label"]
+        return(label)
     except:
-        return "neutral"
-    #authenticator = IAMAuthenticator(api_key)
-    #natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
-    #natural_language_understanding.set_service_url(url)
-    #try:
-        #response = natural_language_understanding.analyze( text=dealerreview,features=Features(sentiment=SentimentOptions(targets=[dealerreview]))).get_result()
-        #label=json.dumps(response, indent=2)["sentiment"]["targets"]["label"]
-        #return(label)
-    #except:
-        #return("neutral")
+        return("neutral")
 
 
 
